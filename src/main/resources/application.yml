@@ -1,0 +1,3 @@
+mybatis:
+  type-aliases-package: com.antonio.example.springtddmybatis.model
+  mapper-locations: classpath*:**/mappers/*Mapper.xml

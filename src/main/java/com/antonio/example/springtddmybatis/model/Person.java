@@ -17,6 +17,7 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    private String cpf;
     private String name;
     private List<Address> addresses;
     private List<Telephone> telephones;
