@@ -16,4 +16,5 @@ public interface PersonMapper {
 
     Optional<Person> findByCpf(@Param("cpf") String cpf);
 
+    Optional<Person> findByTelephoneDddAndTelephoneNumber(@Param("ddd") String ddd, @Param("number") String number);
 }

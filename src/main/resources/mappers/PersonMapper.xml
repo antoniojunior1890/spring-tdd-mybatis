@@ -7,4 +7,7 @@
         select * from person where p.cpf = #{cpf}
     </select>
 
+    <select id="findByTelephoneDddAndTelephoneNumber"
+            resultType="com.antonio.example.springtddmybatis.model.Person"></select>
+
 </mapper>

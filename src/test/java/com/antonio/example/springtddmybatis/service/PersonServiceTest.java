@@ -2,7 +2,9 @@ package com.antonio.example.springtddmybatis.service;
 
 import com.antonio.example.springtddmybatis.mapper.PersonMapper;
 import com.antonio.example.springtddmybatis.model.Person;
+import com.antonio.example.springtddmybatis.model.Telephone;
 import com.antonio.example.springtddmybatis.service.Exception.OnenessCpfException;
+import com.antonio.example.springtddmybatis.service.Exception.OnenessTelephoneException;
 import com.antonio.example.springtddmybatis.service.impl.PersonServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
@@ -20,6 +24,8 @@ public class PersonServiceTest {
 
     private static final String NAME = "Antonio Junior";
     private static final String CPF = "12345678912";
+    private static final String DDD = "99";
+    private static final String NUMBER = "9999888811";
 
     @MockBean
     private PersonMapper personMapper;
@@ -27,6 +33,7 @@ public class PersonServiceTest {
     private PersonService sut;
 
     private Person person;
+    private Telephone telephone;
 
     @BeforeEach
     public void setUp() throws Exception{
@@ -36,6 +43,12 @@ public class PersonServiceTest {
         person = new Person();
         person.setName(NAME);
         person.setCpf(CPF);
+
+        telephone = new Telephone();
+        telephone.setDdd(DDD);
+        telephone.setNumber(NUMBER);
+
+        person.setTelephones(Arrays.asList(telephone));
     }
 
     @Test
@@ -50,6 +63,15 @@ public class PersonServiceTest {
         when(personMapper.findByCpf(CPF)).thenReturn(Optional.of(person));
 
         Assertions.assertThrows(OnenessCpfException.class, () -> {
+            sut.save(person);
+        });
+    }
+
+    @Test
+    public void shouldNoSaveTwoPeopleWithSamePhone() throws Exception {
+        when(personMapper.findByTelephoneDddAndTelephoneNumber(DDD, NUMBER)).thenReturn(Optional.of(person));
+
+        Assertions.assertThrows(OnenessTelephoneException.class, () -> {
             sut.save(person);
         });
     }
