@@ -43,7 +43,6 @@ public class PersonMapperTest {
     @Test
     public void mustFindByTelephoneDddAndNumber() throws Exception {
         Optional<Person> optional = sut.findByTelephoneDddAndTelephoneNumber("86", "35006330");
-//        Optional<Person> optional = sut.findByTelephoneDddAndTelephoneNumber("41", "999570146");
 
         assertThat(optional.isPresent()).isTrue();
 
@@ -51,6 +50,13 @@ public class PersonMapperTest {
         assertThat(person.getId()).isEqualTo(3L);
         assertThat(person.getName()).isEqualTo("Cauê");
         assertThat(person.getCpf()).isEqualTo("38767897100");
+    }
+
+    @Test
+    public void  shouldNotFindPersonTelephoneDddAndNumberNonexistent() throws Exception {
+        Optional<Person> optional = sut.findByTelephoneDddAndTelephoneNumber("00", "00000000000");
+
+        assertThat(optional.isPresent()).isFalse();
     }
 }
 

@@ -4,8 +4,7 @@
     <insert id="save"></insert>
 
     <select id="findByCpf" resultType="com.antonio.example.springtddmybatis.model.Person">
-        select * from person where cpf = #{cpf}
-        <!--        SELECT * FROM PERSON WHERE CPF = #{cpf}-->
+        SELECT * FROM PERSON WHERE CPF = #{cpf}
     </select>
 
     <select id="findByTelephoneDddAndTelephoneNumber" resultType="com.antonio.example.springtddmybatis.model.Person">
@@ -20,6 +19,5 @@
         FROM PERSON P
         INNER JOIN TELEPHONE T ON T.person_id = P.id
     </sql>
-    <!--        t.id AS t_id, t.ddd AS t_ddd, t.number AS t_number,-->
 
 </mapper>
