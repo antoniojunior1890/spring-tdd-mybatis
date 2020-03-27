@@ -2,8 +2,10 @@ package com.antonio.example.springtddmybatis.service.impl;
 
 import com.antonio.example.springtddmybatis.mapper.PersonMapper;
 import com.antonio.example.springtddmybatis.model.Person;
+import com.antonio.example.springtddmybatis.model.Telephone;
 import com.antonio.example.springtddmybatis.service.Exception.OnenessCpfException;
 import com.antonio.example.springtddmybatis.service.Exception.OnenessTelephoneException;
+import com.antonio.example.springtddmybatis.service.Exception.TelephoneNotFoundException;
 import com.antonio.example.springtddmybatis.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +39,10 @@ public class PersonServiceImpl implements PersonService {
         }
 
         return personMapper.save(person);
+    }
+
+    @Override
+    public Person findByTelephone(Telephone telephone) throws TelephoneNotFoundException {
+        return personMapper.findByTelephoneDddAndTelephoneNumber(telephone.getDdd(), telephone.getNumber()).orElseThrow(TelephoneNotFoundException::new);
     }
 }

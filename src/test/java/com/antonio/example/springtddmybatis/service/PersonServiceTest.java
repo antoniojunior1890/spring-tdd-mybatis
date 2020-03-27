@@ -5,6 +5,7 @@ import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
 import com.antonio.example.springtddmybatis.service.Exception.OnenessCpfException;
 import com.antonio.example.springtddmybatis.service.Exception.OnenessTelephoneException;
+import com.antonio.example.springtddmybatis.service.Exception.TelephoneNotFoundException;
 import com.antonio.example.springtddmybatis.service.impl.PersonServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,10 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -74,6 +75,27 @@ public class PersonServiceTest {
         Assertions.assertThrows(OnenessTelephoneException.class, () -> {
             sut.save(person);
         });
+    }
+
+    @Test
+    public void mustReturnExceptionNotFoundWhenThereNoPersonWithDddAndTelephoneNumber () throws Exception {
+        Assertions.assertThrows(TelephoneNotFoundException.class, () -> {
+            sut.findByTelephone(telephone);
+        });
+    }
+
+    @Test
+    public void shouldFindByTelephoneDddAndNumber () throws Exception {
+        when(personMapper.findByTelephoneDddAndTelephoneNumber(DDD, NUMBER)).thenReturn(Optional.of(person));
+
+        Person personTest = sut.findByTelephone(telephone);
+
+        verify(personMapper).findByTelephoneDddAndTelephoneNumber(DDD,NUMBER);
+
+        assertThat(personTest).isNotNull();
+        assertThat(personTest.getName()).isEqualTo(NAME);
+        assertThat(personTest.getCpf()).isEqualTo(CPF);
+
     }
 }
 
