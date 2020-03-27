@@ -32,6 +32,7 @@ public class PersonServiceImpl implements PersonService {
 
         final String ddd = person.getTelephones().get(0).getDdd();
         final String number = person.getTelephones().get(0).getNumber();
+
         optional = personMapper.findByTelephoneDddAndTelephoneNumber(ddd, number);
 
         if (optional.isPresent()) {

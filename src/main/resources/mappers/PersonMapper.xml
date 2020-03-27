@@ -4,7 +4,7 @@
     <insert id="save"></insert>
 
     <select id="findByCpf" resultType="com.antonio.example.springtddmybatis.model.Person">
-        select * from person where p.cpf = #{cpf}
+        select * from person where cpf = #{cpf}
     </select>
 
     <select id="findByTelephoneDddAndTelephoneNumber"

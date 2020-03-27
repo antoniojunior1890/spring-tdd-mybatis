@@ -48,7 +48,6 @@ public class PersonServiceTest {
         telephone = new Telephone();
         telephone.setDdd(DDD);
         telephone.setNumber(NUMBER);
-
         person.setTelephones(Arrays.asList(telephone));
     }
 
@@ -85,7 +84,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void shouldFindByTelephoneDddAndNumber () throws Exception {
+    public void mustFindByTelephoneDddAndNumber () throws Exception {
         when(personMapper.findByTelephoneDddAndTelephoneNumber(DDD, NUMBER)).thenReturn(Optional.of(person));
 
         Person personTest = sut.findByTelephone(telephone);

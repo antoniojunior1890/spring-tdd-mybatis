@@ -1,9 +1,6 @@
 package com.antonio.example.springtddmybatis.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -11,10 +8,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @EqualsAndHashCode.Include
     private Long id;
     private String street;
     private Integer number;
@@ -22,4 +21,5 @@ public class Address implements Serializable {
     private String neighborhood;
     private String city;
     private String state;
+    private Person person;
 }

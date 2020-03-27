@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+
+flyway:
+  enabled: true
+  locations: classpath:db/migration/h2
+
+#mybatis:
+#  type-aliases-package: com.antonio.example.springtddmybatis.model
+#  mapper-locations: classpath*:**/mappers/*Mapper.xml
