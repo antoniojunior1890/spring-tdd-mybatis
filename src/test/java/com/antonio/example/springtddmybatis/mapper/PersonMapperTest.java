@@ -72,13 +72,24 @@ public class PersonMapperTest {
     }
 
     @Test
-    void mustFilterPersonByCpfPart() {
+    void mustFilterPersonByCpfPart() throws Exception {
         PersonFilter personFilter = new PersonFilter();
         personFilter.setCpf("78");
 
         List<Person> personList = sut.filter(personFilter);
 
         assertThat(personList.size()).isEqualTo(3);
+    }
+
+    @Test
+    void mustFilterPersonByCompositeFilter() throws Exception {
+        PersonFilter personFilter = new PersonFilter();
+        personFilter.setName("a");
+        personFilter.setCpf("78");
+
+        List<Person> personList = sut.filter(personFilter);
+
+        assertThat(personList.size()).isEqualTo(2);
     }
 }
 
