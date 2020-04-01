@@ -59,7 +59,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void shouldNotSaveTwoPeopleWithSameCpf() throws Exception {
+    public void mustNotSaveTwoPeopleWithSameCpf() throws Exception {
         when(personMapper.findByCpf(CPF)).thenReturn(Optional.of(person));
 
         Assertions.assertThrows(OnenessCpfException.class, () -> {
@@ -68,7 +68,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void shouldNoSaveTwoPeopleWithSamePhone() throws Exception {
+    public void mustNotSaveTwoPeopleWithSamePhone() throws Exception {
         when(personMapper.findByTelephoneDddAndTelephoneNumber(DDD, NUMBER)).thenReturn(Optional.of(person));
 
         Assertions.assertThrows(OnenessTelephoneException.class, () -> {

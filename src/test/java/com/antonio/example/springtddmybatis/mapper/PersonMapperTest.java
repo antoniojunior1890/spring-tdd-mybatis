@@ -36,7 +36,7 @@ public class PersonMapperTest {
     }
 
     @Test
-    public void  shouldNotFindPersonCpfNonexistent() throws Exception {
+    public void  mustNotFindPersonCpfNonexistent() throws Exception {
         Optional<Person> optional = sut.findByCpf("111111111");
 
         assertThat(optional.isPresent()).isFalse();
@@ -55,7 +55,7 @@ public class PersonMapperTest {
     }
 
     @Test
-    public void  shouldNotFindPersonTelephoneDddAndNumberNonexistent() throws Exception {
+    void  mustNotFindPersonTelephoneDddAndNumberNonexistent() throws Exception {
         Optional<Person> optional = sut.findByTelephoneDddAndTelephoneNumber("00", "00000000000");
 
         assertThat(optional.isPresent()).isFalse();
@@ -90,6 +90,37 @@ public class PersonMapperTest {
         List<Person> personList = sut.filter(personFilter);
 
         assertThat(personList.size()).isEqualTo(2);
+    }
+
+    @Test
+    void mustFilterPersonByDddTelephone() throws Exception{
+        PersonFilter personFilter = new PersonFilter();
+        personFilter.setDdd("21");
+
+        List<Person> personList = sut.filter(personFilter);
+
+        assertThat(personList.size()).isEqualTo(1);
+    }
+
+    @Test
+    void mustNotFilterPersonByNumberTelephone() throws Exception {
+        PersonFilter personFilter = new PersonFilter();
+        personFilter.setNumber("000");
+
+        List<Person> personList = sut.filter(personFilter);
+
+        assertThat(personList.size()).isEqualTo(0);
+    }
+
+    @Test
+    void mustFilterPersonByNumberTelephone() throws Exception {
+        PersonFilter personFilter = new PersonFilter();
+        personFilter.setNumber("35006330");
+
+        List<Person> personList = sut.filter(personFilter);
+
+        assertThat(personList.size()).isEqualTo(1);
+
     }
 }
 

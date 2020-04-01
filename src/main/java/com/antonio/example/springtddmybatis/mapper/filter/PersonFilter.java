@@ -9,5 +9,5 @@ public class PersonFilter {
     private String name;
     private String cpf;
     private String ddd;
-    private String telephone;
+    private String number;
 }

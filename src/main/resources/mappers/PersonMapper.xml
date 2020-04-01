@@ -22,7 +22,6 @@
 
     <select id="filter" resultType="com.antonio.example.springtddmybatis.model.Person">
 
-        <!--        SELECT * FROM PERSON WHERE 1 = 1-->
         <include refid="queryInner"></include>
         WHERE 1 = 1
 
@@ -34,6 +33,14 @@
         <if test="personFilter != null and personFilter.cpf != null">
             <bind name="filterCpf"  value="'%' + personFilter.cpf + '%'" />
             AND P.cpf like #{filterCpf}
+        </if>
+
+        <if test="personFilter != null and personFilter.ddd != null">
+            AND T.ddd like #{personFilter.ddd}
+        </if>
+
+        <if test="personFilter != null and personFilter.number != null">
+            AND T.number like #{personFilter.number}
         </if>
     </select>
 
