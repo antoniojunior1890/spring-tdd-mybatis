@@ -8,25 +8,33 @@
     </select>
 
     <select id="findByTelephoneDddAndTelephoneNumber" resultType="com.antonio.example.springtddmybatis.model.Person">
-        <include refid="sqlFindByTelephoneDddAndTelephoneNumber"></include>
+        <include refid="queryInner"></include>
         WHERE T.ddd = #{ddd}
         AND T.number = #{number}
     </select>
 
-    <select id="filter" resultType="com.antonio.example.springtddmybatis.model.Person">
-        <bind name="filterName" value="'%' + personFilter.name + '%'" />
-
-        SELECT * FROM PERSON WHERE 1 = 1
-        <if test="personFilter != null and personFilter.name != null">
-            AND P.name like #{filterName}
-        </if>
-    </select>
-
-    <sql id="sqlFindByTelephoneDddAndTelephoneNumber">
+    <sql id="queryInner">
         SELECT
         P.id AS id, P.cpf AS cpf, P.name AS name
         FROM PERSON P
         INNER JOIN TELEPHONE T ON T.person_id = P.id
     </sql>
+
+    <select id="filter" resultType="com.antonio.example.springtddmybatis.model.Person">
+
+        <!--        SELECT * FROM PERSON WHERE 1 = 1-->
+        <include refid="queryInner"></include>
+        WHERE 1 = 1
+
+        <if test="personFilter != null and personFilter.name != null">
+            <bind name="filterName" value=" '%' + personFilter.name + '%'" />
+            AND P.name like #{filterName}
+        </if>
+
+        <if test="personFilter != null and personFilter.cpf != null">
+            <bind name="filterCpf"  value="'%' + personFilter.cpf + '%'" />
+            AND P.cpf like #{filterCpf}
+        </if>
+    </select>
 
 </mapper>
