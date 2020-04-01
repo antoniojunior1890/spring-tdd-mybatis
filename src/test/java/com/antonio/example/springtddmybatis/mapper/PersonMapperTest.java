@@ -1,6 +1,7 @@
 package com.antonio.example.springtddmybatis.mapper;
 
 
+import com.antonio.example.springtddmybatis.mapper.filter.PersonFilter;
 import com.antonio.example.springtddmybatis.model.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,7 +43,7 @@ public class PersonMapperTest {
     }
 
     @Test
-    public void mustFindByTelephoneDddAndNumber() throws Exception {
+    public void mustFindPersonByTelephoneDddAndNumber() throws Exception {
         Optional<Person> optional = sut.findByTelephoneDddAndTelephoneNumber("86", "35006330");
 
         assertThat(optional.isPresent()).isTrue();
@@ -57,6 +59,16 @@ public class PersonMapperTest {
         Optional<Person> optional = sut.findByTelephoneDddAndTelephoneNumber("00", "00000000000");
 
         assertThat(optional.isPresent()).isFalse();
+    }
+
+    @Test
+    void mustFilterPersonByNamePart() throws Exception {
+        PersonFilter personFilter = new PersonFilter();
+        personFilter.setName("a");
+
+        List<Person> personList = sut.filter(personFilter);
+
+        assertThat(personList.size()).isEqualTo(3);
     }
 }
 

@@ -13,6 +13,15 @@
         AND T.number = #{number}
     </select>
 
+    <select id="filter" resultType="com.antonio.example.springtddmybatis.model.Person">
+        <bind name="filterName" value="'%' + personFilter.name + '%'" />
+
+        SELECT * FROM PERSON WHERE 1 = 1
+        <if test="personFilter != null and personFilter.name != null">
+            AND P.name like #{filterName}
+        </if>
+    </select>
+
     <sql id="sqlFindByTelephoneDddAndTelephoneNumber">
         SELECT
         P.id AS id, P.cpf AS cpf, P.name AS name
