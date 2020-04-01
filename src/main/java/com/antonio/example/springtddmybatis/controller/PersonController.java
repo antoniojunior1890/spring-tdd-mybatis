@@ -1,0 +1,38 @@
+package com.antonio.example.springtddmybatis.controller;
+
+
+import com.antonio.example.springtddmybatis.model.Person;
+import com.antonio.example.springtddmybatis.model.Telephone;
+import com.antonio.example.springtddmybatis.service.Exception.TelephoneNotFoundException;
+import com.antonio.example.springtddmybatis.service.impl.PersonServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("person")
+public class PersonController {
+
+    private final PersonServiceImpl personServiceImpl;
+
+    @Autowired
+    public PersonController(PersonServiceImpl personServiceImpl) {
+        this.personServiceImpl = personServiceImpl;
+    }
+
+    @GetMapping("/{ddd}/{number}")
+    public ResponseEntity<Person> findByDddAndNumberTelephone(@PathVariable("ddd") String ddd,
+                                                              @PathVariable("number") String number)
+                                                                throws TelephoneNotFoundException {
+
+        final Telephone telephone = new Telephone();
+        telephone.setDdd(ddd);
+        telephone.setNumber(number);
+
+        return ResponseEntity.ok(personServiceImpl.findByTelephone(telephone));
+    }
+
+}
