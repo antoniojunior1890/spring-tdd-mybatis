@@ -1,4 +1,4 @@
-package com.antonio.example.springtddmybatis.resource;
+package com.antonio.example.springtddmybatis.controller;
 
 import com.antonio.example.springtddmybatis.SpringTddMybatisApplicationTests;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-public class PersonResourceTest extends SpringTddMybatisApplicationTests {
+public class PersonControllerTest extends SpringTddMybatisApplicationTests {
 
     @Test
     void mustFindPersonByDddAndNumberTelephone() {
