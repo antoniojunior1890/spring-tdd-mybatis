@@ -5,12 +5,12 @@ import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
 import com.antonio.example.springtddmybatis.service.Exception.TelephoneNotFoundException;
 import com.antonio.example.springtddmybatis.service.impl.PersonServiceImpl;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("person")
@@ -35,4 +35,14 @@ public class PersonController {
         return ResponseEntity.ok(personServiceImpl.findByTelephone(telephone));
     }
 
+    @ExceptionHandler(TelephoneNotFoundException.class)
+    public ResponseEntity<ApiError> handleTelephoneNotFoundException(TelephoneNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError(e.getMessage()));
+    }
+
+    @AllArgsConstructor
+    @Getter
+    class ApiError {
+        private final String error;
+    }
 }

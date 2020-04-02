@@ -7,7 +7,6 @@ import com.antonio.example.springtddmybatis.service.Exception.OnenessCpfExceptio
 import com.antonio.example.springtddmybatis.service.Exception.OnenessTelephoneException;
 import com.antonio.example.springtddmybatis.service.Exception.TelephoneNotFoundException;
 import com.antonio.example.springtddmybatis.service.impl.PersonServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +16,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -62,7 +63,7 @@ public class PersonServiceTest {
     public void mustNotSaveTwoPeopleWithSameCpf() throws Exception {
         when(personMapper.findByCpf(CPF)).thenReturn(Optional.of(person));
 
-        Assertions.assertThrows(OnenessCpfException.class, () -> {
+        assertThrows(OnenessCpfException.class, () -> {
             sut.save(person);
         });
     }
@@ -71,16 +72,24 @@ public class PersonServiceTest {
     public void mustNotSaveTwoPeopleWithSamePhone() throws Exception {
         when(personMapper.findByTelephoneDddAndTelephoneNumber(DDD, NUMBER)).thenReturn(Optional.of(person));
 
-        Assertions.assertThrows(OnenessTelephoneException.class, () -> {
+        assertThrows(OnenessTelephoneException.class, () -> {
             sut.save(person);
         });
     }
 
     @Test
     public void mustReturnExceptionNotFoundWhenThereNoPersonWithDddAndTelephoneNumber () throws Exception {
-        Assertions.assertThrows(TelephoneNotFoundException.class, () -> {
+        assertThrows(TelephoneNotFoundException.class, () -> {
             sut.findByTelephone(telephone);
         });
+    }
+
+    @Test
+    void mustReturnDataTelephoneInException() {
+        Exception exception = assertThrows( TelephoneNotFoundException.class, () -> sut.findByTelephone(telephone));
+
+        assertEquals(exception.getMessage(), "Não existe pessoa com o telefone ("+DDD+")"+NUMBER);
+
     }
 
     @Test

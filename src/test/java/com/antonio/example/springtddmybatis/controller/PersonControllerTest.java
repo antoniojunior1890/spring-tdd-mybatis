@@ -22,4 +22,16 @@ public class PersonControllerTest extends SpringTddMybatisApplicationTests {
                         "name", equalTo("Cauê"),
                         "cpf", equalTo("38767897100"));
     }
+
+    @Test
+    void mustReturnErrorNotFoundPersonByTelephoneNonexistent() {
+        given()
+                .pathParam("ddd","99")
+                .pathParam("number", "9898989898")
+        .get("/person/{ddd}/{number}")
+        .then()
+                .log().body().and()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .body("error", equalTo("Não existe pessoa com o telefone (99)9898989898"));
+    }
 }

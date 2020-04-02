@@ -44,6 +44,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person findByTelephone(Telephone telephone) throws TelephoneNotFoundException {
-        return personMapper.findByTelephoneDddAndTelephoneNumber(telephone.getDdd(), telephone.getNumber()).orElseThrow(TelephoneNotFoundException::new);
+        return personMapper.findByTelephoneDddAndTelephoneNumber(telephone.getDdd(), telephone.getNumber()).orElseThrow(() -> new TelephoneNotFoundException("Não existe pessoa com o telefone ("+telephone.getDdd()+")"+telephone.getNumber()));
     }
 }
