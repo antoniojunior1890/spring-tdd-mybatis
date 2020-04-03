@@ -3,7 +3,7 @@ package com.antonio.example.springtddmybatis.controller;
 
 import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
-import com.antonio.example.springtddmybatis.service.Exception.TelephoneNotFoundException;
+import com.antonio.example.springtddmybatis.exception.TelephoneNotFoundException;
 import com.antonio.example.springtddmybatis.service.impl.PersonServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
