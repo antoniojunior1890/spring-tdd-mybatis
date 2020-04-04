@@ -7,7 +7,6 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
