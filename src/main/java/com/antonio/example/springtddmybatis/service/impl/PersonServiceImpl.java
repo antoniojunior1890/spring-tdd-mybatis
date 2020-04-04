@@ -1,5 +1,6 @@
 package com.antonio.example.springtddmybatis.service.impl;
 
+import com.antonio.example.springtddmybatis.exception.PersonNotFoundException;
 import com.antonio.example.springtddmybatis.mapper.PersonMapper;
 import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
@@ -39,11 +40,18 @@ public class PersonServiceImpl implements PersonService {
             throw new OnenessTelephoneException();
         }
 
-        return personMapper.save(person);
+        personMapper.save(person);
+
+        return person;
     }
 
     @Override
     public Person findByTelephone(Telephone telephone) throws TelephoneNotFoundException {
         return personMapper.findByTelephoneDddAndTelephoneNumber(telephone.getDdd(), telephone.getNumber()).orElseThrow(() -> new TelephoneNotFoundException("Não existe pessoa com o telefone ("+telephone.getDdd()+")"+telephone.getNumber()));
+    }
+
+    @Override
+    public Person findById(Long id) throws PersonNotFoundException {
+        return personMapper.findById(id).orElseThrow(() -> new PersonNotFoundException("Não existe pessoa com o id "+id));
     }
 }

@@ -14,11 +14,13 @@ import java.util.Optional;
 @Repository
 public interface PersonMapper {
 
-    Person save(@Param("person") Person person);
+    void save(@Param("person") Person person);
 
     Optional<Person> findByCpf(@Param("cpf") String cpf);
 
     Optional<Person> findByTelephoneDddAndTelephoneNumber(@Param("ddd") String ddd, @Param("number") String number);
 
     List<Person> filter(@Param("personFilter") PersonFilter personFilter);
+
+    Optional<Person> findById(@Param("personId") Long personId);
 }

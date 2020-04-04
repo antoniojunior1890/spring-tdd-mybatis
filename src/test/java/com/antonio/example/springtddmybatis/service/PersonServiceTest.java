@@ -1,5 +1,6 @@
 package com.antonio.example.springtddmybatis.service;
 
+import com.antonio.example.springtddmybatis.exception.PersonNotFoundException;
 import com.antonio.example.springtddmybatis.mapper.PersonMapper;
 import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
@@ -24,6 +25,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class PersonServiceTest {
 
+    private static final Long ID = 1L;
     private static final String NAME = "Antonio Junior";
     private static final String CPF = "12345678912";
     private static final String DDD = "99";
@@ -43,6 +45,7 @@ public class PersonServiceTest {
         sut = new PersonServiceImpl(personMapper);
 
         person = new Person();
+        person.setId(ID);
         person.setName(NAME);
         person.setCpf(CPF);
 
@@ -104,6 +107,21 @@ public class PersonServiceTest {
         assertThat(personTest.getName()).isEqualTo(NAME);
         assertThat(personTest.getCpf()).isEqualTo(CPF);
 
+    }
+
+    @Test
+    void mustFindPersonById() throws Exception {
+        when(personMapper.findById(ID)).thenReturn(Optional.of(person));
+
+        sut.findById(ID);
+        verify(personMapper).findById(ID);
+    }
+
+    @Test
+    void mustReturnPersonNotFoundException()  {
+        assertThrows(PersonNotFoundException.class, () -> {
+            sut.findById(ID);
+        });
     }
 }
 

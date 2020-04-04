@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Sql(value = "/load-database.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = "/clean-database.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -121,6 +123,18 @@ public class PersonMapperTest {
 
         assertThat(personList.size()).isEqualTo(1);
 
+    }
+
+    @Test
+    void mustFindPersonById() {
+
+        Optional<Person> optional = sut.findById(3L);
+
+        assertTrue(optional.isPresent());
+
+        Person person = optional.get();
+        assertEquals(person.getName(),"Cauê");
+        assertEquals(person.getCpf(),"38767897100");
     }
 }
 
