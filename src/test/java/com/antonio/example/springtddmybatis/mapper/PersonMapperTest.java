@@ -3,18 +3,21 @@ package com.antonio.example.springtddmybatis.mapper;
 
 import com.antonio.example.springtddmybatis.mapper.filter.PersonFilter;
 import com.antonio.example.springtddmybatis.model.Person;
+import com.antonio.example.springtddmybatis.model.Telephone;
+import com.antonio.example.springtddmybatis.service.impl.PersonServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Sql(value = "/load-database.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = "/clean-database.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -22,8 +25,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestPropertySource("classpath:application-test.yml")
 public class PersonMapperTest {
 
+    private static final String NAME = "Antonio Junior";
+    private static final String CPF = "12345678912";
+    private static final String DDD = "99";
+    private static final String NUMBER = "9999888811";
+
+    private Person person;
+    private Telephone telephone;
+
     @Autowired
     private PersonMapper sut;
+
+    @BeforeEach
+    public void setUp() {
+
+        person = new Person();
+        person.setName(NAME);
+        person.setCpf(CPF);
+
+        telephone = new Telephone();
+        telephone.setDdd(DDD);
+        telephone.setNumber(NUMBER);
+        person.setTelephones(Arrays.asList(telephone));
+    }
 
     @Test
     public void mustFindPersonByCpf() throws Exception {
@@ -135,6 +159,14 @@ public class PersonMapperTest {
         Person person = optional.get();
         assertEquals(person.getName(),"Cauê");
         assertEquals(person.getCpf(),"38767897100");
+    }
+
+    @Test
+    void mustSavePerson() {
+
+        sut.save(person);
+
+        assertNotNull(person.getId());
     }
 }
 
