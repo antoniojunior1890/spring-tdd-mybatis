@@ -3,6 +3,7 @@ package com.antonio.example.springtddmybatis.controller;
 
 import com.antonio.example.springtddmybatis.exception.OnenessCpfException;
 import com.antonio.example.springtddmybatis.exception.OnenessTelephoneException;
+import com.antonio.example.springtddmybatis.exception.PersonNotFoundException;
 import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
 import com.antonio.example.springtddmybatis.exception.TelephoneNotFoundException;
@@ -42,6 +43,12 @@ public class PersonController {
         return ResponseEntity.ok(personServiceImpl.findByTelephone(telephone));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Person> findById(@PathVariable("id") Long id) throws PersonNotFoundException {
+
+        return ResponseEntity.ok(personServiceImpl.findById(id));
+    }
+
     @PostMapping
     public ResponseEntity<Person> save(@RequestBody Person person, HttpServletResponse response) throws OnenessTelephoneException, OnenessCpfException {
         final Person createdPerson = personServiceImpl.save(person);
@@ -55,6 +62,11 @@ public class PersonController {
 
     @ExceptionHandler(TelephoneNotFoundException.class)
     public ResponseEntity<ApiError> handleTelephoneNotFoundException(TelephoneNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError(e.getMessage()));
+    }
+
+    @ExceptionHandler(PersonNotFoundException.class)
+    public ResponseEntity<ApiError> handlePersonNotFoundException(PersonNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError(e.getMessage()));
     }
 

@@ -52,6 +52,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person findById(Long id) throws PersonNotFoundException {
-        return personMapper.findById(id).orElseThrow(() -> new PersonNotFoundException("Não existe pessoa com o id "+id));
+        return personMapper.findById(id).orElseThrow(() -> new PersonNotFoundException("Não existe pessoa com ID "+id));
     }
 }

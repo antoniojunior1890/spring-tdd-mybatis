@@ -42,6 +42,29 @@ public class PersonControllerTest extends SpringTddMybatisApplicationTests {
     }
 
     @Test
+    void mustFindPersonById() {
+        given()
+                .pathParam("id", "3")
+                .get("/person/{id}")
+                .then()
+                .log().body().and()
+                .statusCode(HttpStatus.OK.value())
+                .body("name", equalTo("Cauê"),
+                        "cpf", equalTo("38767897100"));
+    }
+
+    @Test
+    void mustReturnErrorNotFoundPersonByIdNonexistent() {
+        given()
+                .pathParam("id", "33")
+                .get("/person/{id}")
+                .then()
+                .log().body().and()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .body("error", equalTo("Não existe pessoa com ID 33"));
+    }
+
+    @Test
     void mustSavePerson() {
         final Person person = new Person();
         person.setName("Lorenzo");
