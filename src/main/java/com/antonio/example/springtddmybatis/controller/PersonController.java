@@ -53,8 +53,8 @@ public class PersonController {
     public ResponseEntity<Person> save(@RequestBody Person person, HttpServletResponse response) throws OnenessTelephoneException, OnenessCpfException {
         final Person createdPerson = personServiceImpl.save(person);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{ddd}/{number}")
-                .buildAndExpand(person.getTelephones().get(0).getDdd(),person.getTelephones().get(0).getNumber()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+                .buildAndExpand(createdPerson.getId()).toUri();
         response.setHeader("Location", uri.toASCIIString());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPerson);

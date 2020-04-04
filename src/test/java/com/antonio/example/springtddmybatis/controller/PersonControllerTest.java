@@ -89,7 +89,7 @@ public class PersonControllerTest extends SpringTddMybatisApplicationTests {
                 .log().body()
             .and()
                 .statusCode(HttpStatus.CREATED.value())
-                .header("Location", equalTo("http://localhost:"+port+"/person/79/36977168"))
+                .header("Location", equalTo("http://localhost:"+port+"/person/6"))
                 .body("id",equalTo(6),
                         "name",equalTo("Lorenzo"),
                         "cpf",equalTo("62461410720"));
