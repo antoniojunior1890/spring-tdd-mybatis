@@ -92,7 +92,7 @@ public class PersonMapperTest {
         PersonFilter personFilter = new PersonFilter();
         personFilter.setName("a");
 
-        List<Person> personList = sut.filter(personFilter);
+        List<Person> personList = sut.findByFilter(personFilter);
 
         assertThat(personList.size()).isEqualTo(3);
     }
@@ -102,7 +102,7 @@ public class PersonMapperTest {
         PersonFilter personFilter = new PersonFilter();
         personFilter.setCpf("78");
 
-        List<Person> personList = sut.filter(personFilter);
+        List<Person> personList = sut.findByFilter(personFilter);
 
         assertThat(personList.size()).isEqualTo(3);
     }
@@ -113,7 +113,7 @@ public class PersonMapperTest {
         personFilter.setName("a");
         personFilter.setCpf("78");
 
-        List<Person> personList = sut.filter(personFilter);
+        List<Person> personList = sut.findByFilter(personFilter);
 
         assertThat(personList.size()).isEqualTo(2);
     }
@@ -123,7 +123,7 @@ public class PersonMapperTest {
         PersonFilter personFilter = new PersonFilter();
         personFilter.setDdd("21");
 
-        List<Person> personList = sut.filter(personFilter);
+        List<Person> personList = sut.findByFilter(personFilter);
 
         assertThat(personList.size()).isEqualTo(1);
     }
@@ -133,7 +133,7 @@ public class PersonMapperTest {
         PersonFilter personFilter = new PersonFilter();
         personFilter.setNumber("000");
 
-        List<Person> personList = sut.filter(personFilter);
+        List<Person> personList = sut.findByFilter(personFilter);
 
         assertThat(personList.size()).isEqualTo(0);
     }
@@ -143,7 +143,7 @@ public class PersonMapperTest {
         PersonFilter personFilter = new PersonFilter();
         personFilter.setNumber("35006330");
 
-        List<Person> personList = sut.filter(personFilter);
+        List<Person> personList = sut.findByFilter(personFilter);
 
         assertThat(personList.size()).isEqualTo(1);
 

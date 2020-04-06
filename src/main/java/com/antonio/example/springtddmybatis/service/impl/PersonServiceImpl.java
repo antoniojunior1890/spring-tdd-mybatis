@@ -2,6 +2,7 @@ package com.antonio.example.springtddmybatis.service.impl;
 
 import com.antonio.example.springtddmybatis.exception.PersonNotFoundException;
 import com.antonio.example.springtddmybatis.mapper.PersonMapper;
+import com.antonio.example.springtddmybatis.mapper.filter.PersonFilter;
 import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
 import com.antonio.example.springtddmybatis.exception.OnenessCpfException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.net.dns.ResolverConfiguration;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,4 +57,11 @@ public class PersonServiceImpl implements PersonService {
     public Person findById(Long id) throws PersonNotFoundException {
         return personMapper.findById(id).orElseThrow(() -> new PersonNotFoundException("Não existe pessoa com ID "+id));
     }
+
+    @Override
+    public List<Person> findByFilter(PersonFilter personFilter) {
+        return personMapper.findByFilter(personFilter);
+    }
+
+
 }

@@ -31,7 +31,7 @@
         LEFT JOIN TELEPHONE T ON T.person_id = P.id
     </sql>
 
-    <select id="filter" resultType="com.antonio.example.springtddmybatis.model.Person">
+    <select id="findByFilter" resultType="com.antonio.example.springtddmybatis.model.Person">
 
         <include refid="queryInner"></include>
         WHERE 1 = 1

@@ -1,6 +1,7 @@
 package com.antonio.example.springtddmybatis.controller;
 
 import com.antonio.example.springtddmybatis.SpringTddMybatisApplicationTests;
+import com.antonio.example.springtddmybatis.mapper.filter.PersonFilter;
 import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -210,6 +212,22 @@ public class PersonControllerTest extends SpringTddMybatisApplicationTests {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("Já existe pessoa cadastrada com o telefone (86)35006330"));
+    }
+
+    @Test
+    void mustFilterPersonByNamePart() throws Exception {
+        PersonFilter personFilter = new PersonFilter();
+        personFilter.setName("a");
+
+        mockMvc.perform(post("/person/filter")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(personFilter)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].id").value(containsInAnyOrder(1,3,5)))
+                .andExpect(jsonPath("$[*].name").value(containsInAnyOrder("Iago","Cauê","Thiago")))
+                .andExpect(jsonPath("$[*].cpf").value(containsInAnyOrder("86730543540","38767897100","72788740417")));
     }
 
     public static String asJsonString(final Object obj) {

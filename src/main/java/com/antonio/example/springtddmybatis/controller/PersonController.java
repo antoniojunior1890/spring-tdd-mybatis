@@ -4,6 +4,7 @@ package com.antonio.example.springtddmybatis.controller;
 import com.antonio.example.springtddmybatis.exception.OnenessCpfException;
 import com.antonio.example.springtddmybatis.exception.OnenessTelephoneException;
 import com.antonio.example.springtddmybatis.exception.PersonNotFoundException;
+import com.antonio.example.springtddmybatis.mapper.filter.PersonFilter;
 import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
 import com.antonio.example.springtddmybatis.exception.TelephoneNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("person")
@@ -58,6 +60,11 @@ public class PersonController {
         response.setHeader("Location", uri.toASCIIString());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPerson);
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<Person>> findByFilter(@RequestBody PersonFilter personFilter) {
+        return ResponseEntity.ok(personServiceImpl.findByFilter(personFilter));
     }
 
     @ExceptionHandler(TelephoneNotFoundException.class)

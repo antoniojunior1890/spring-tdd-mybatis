@@ -20,7 +20,7 @@ public interface PersonMapper {
 
     Optional<Person> findByTelephoneDddAndTelephoneNumber(@Param("ddd") String ddd, @Param("number") String number);
 
-    List<Person> filter(@Param("personFilter") PersonFilter personFilter);
+    List<Person> findByFilter(@Param("personFilter") PersonFilter personFilter);
 
     Optional<Person> findById(@Param("personId") Long personId);
 }
