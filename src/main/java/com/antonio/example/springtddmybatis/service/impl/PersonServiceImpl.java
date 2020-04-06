@@ -38,7 +38,7 @@ public class PersonServiceImpl implements PersonService {
         optional = personMapper.findByTelephoneDddAndTelephoneNumber(ddd, number);
 
         if (optional.isPresent()) {
-            throw new OnenessTelephoneException();
+            throw new OnenessTelephoneException("Já existe pessoa cadastrada com o telefone ("+ddd+")"+number);
         }
 
         personMapper.save(person);

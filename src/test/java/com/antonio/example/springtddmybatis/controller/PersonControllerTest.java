@@ -171,7 +171,7 @@ public class PersonControllerTest extends SpringTddMybatisApplicationTests {
     }
 
     @Test
-    void mustNotSaveTwoPeopleWithSameCpf() throws Exception {
+    void mustNotSaveTwoPeopleWithSameCpfMockMvc() throws Exception {
         final Person person = new Person();
         person.setName("Lorenzo");
         person.setCpf("72788740417");
@@ -189,6 +189,27 @@ public class PersonControllerTest extends SpringTddMybatisApplicationTests {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("Já existe pessoa cadastrada com o cpf 72788740417"));
+    }
+
+    @Test
+    void mustNotSaveTwoPeopleWithSameTelephoneMockMvc() throws Exception {
+        final Person person = new Person();
+        person.setName("Lorenzo");
+        person.setCpf("62461410720");
+
+        final Telephone telephone = new Telephone();
+        telephone.setDdd("86");
+        telephone.setNumber("35006330");
+
+        person.setTelephones(Arrays.asList(telephone));
+
+        mockMvc.perform(post("/person")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(person)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Já existe pessoa cadastrada com o telefone (86)35006330"));
     }
 
     public static String asJsonString(final Object obj) {

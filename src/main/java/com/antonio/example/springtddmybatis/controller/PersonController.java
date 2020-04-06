@@ -75,6 +75,11 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiError(e.getMessage()));
     }
 
+    @ExceptionHandler(OnenessTelephoneException.class)
+    public ResponseEntity<ApiError> handleOnenessTelephoneException(OnenessTelephoneException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiError(e.getMessage()));
+    }
+
     @AllArgsConstructor
     @Getter
     class ApiError {
