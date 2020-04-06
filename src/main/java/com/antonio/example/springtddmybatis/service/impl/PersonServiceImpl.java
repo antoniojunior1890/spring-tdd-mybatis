@@ -29,7 +29,7 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> optional = personMapper.findByCpf(person.getCpf());
 
         if(optional.isPresent()) {
-            throw new OnenessCpfException();
+            throw new OnenessCpfException("Já existe pessoa cadastrada com o cpf "+person.getCpf());
         }
 
         final String ddd = person.getTelephones().get(0).getDdd();

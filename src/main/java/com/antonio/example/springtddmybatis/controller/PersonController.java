@@ -70,6 +70,11 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError(e.getMessage()));
     }
 
+    @ExceptionHandler(OnenessCpfException.class)
+    public ResponseEntity<ApiError> handleOnenessCpfException(OnenessCpfException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiError(e.getMessage()));
+    }
+
     @AllArgsConstructor
     @Getter
     class ApiError {

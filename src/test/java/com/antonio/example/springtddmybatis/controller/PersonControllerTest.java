@@ -31,7 +31,7 @@ public class PersonControllerTest extends SpringTddMybatisApplicationTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("3"))
+                .andExpect(jsonPath("$.id").value(3))
                 .andExpect(jsonPath("$.name").value("Cauê"))
                 .andExpect(jsonPath("$.cpf").value("38767897100"));
     }
@@ -168,6 +168,27 @@ public class PersonControllerTest extends SpringTddMybatisApplicationTests {
                         "name",equalTo("Lorenzo"),
                         "cpf",equalTo("62461410720"));
 
+    }
+
+    @Test
+    void mustNotSaveTwoPeopleWithSameCpf() throws Exception {
+        final Person person = new Person();
+        person.setName("Lorenzo");
+        person.setCpf("72788740417");
+
+        final Telephone telephone = new Telephone();
+        telephone.setDdd("79");
+        telephone.setNumber("36977168");
+
+        person.setTelephones(Arrays.asList(telephone));
+
+        mockMvc.perform(post("/person")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(person)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Já existe pessoa cadastrada com o cpf 72788740417"));
     }
 
     public static String asJsonString(final Object obj) {
