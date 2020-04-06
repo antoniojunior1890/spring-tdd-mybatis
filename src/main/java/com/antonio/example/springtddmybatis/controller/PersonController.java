@@ -45,7 +45,8 @@ public class PersonController {
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable("id") Long id) throws PersonNotFoundException {
 
-        return ResponseEntity.ok(personServiceImpl.findById(id));
+        Person person = personServiceImpl.findById(id);
+        return ResponseEntity.ok(person);
     }
 
     @PostMapping

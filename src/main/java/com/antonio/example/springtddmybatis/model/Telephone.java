@@ -18,5 +18,5 @@ public class Telephone implements Serializable {
     private Long id;
     private String ddd;
     private String number;
-    private Person person;
+//    private Person person;
 }

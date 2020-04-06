@@ -15,7 +15,8 @@
     </insert>
 
     <select id="findByCpf" resultType="com.antonio.example.springtddmybatis.model.Person">
-        SELECT * FROM PERSON WHERE CPF = #{cpf}
+        <include refid="queryInner"></include>
+        WHERE CPF = #{cpf}
     </select>
 
     <select id="findByTelephoneDddAndTelephoneNumber" resultType="com.antonio.example.springtddmybatis.model.Person">
@@ -23,13 +24,6 @@
         WHERE T.ddd = #{ddd}
         AND T.number = #{number}
     </select>
-
-    <sql id="queryInner">
-        SELECT
-        P.id AS id, P.cpf AS cpf, P.name AS name
-        FROM PERSON P
-        LEFT JOIN TELEPHONE T ON T.person_id = P.id
-    </sql>
 
     <select id="findByFilter" resultType="com.antonio.example.springtddmybatis.model.Person">
 
@@ -55,9 +49,45 @@
         </if>
     </select>
 
-    <select id="findById" resultType="com.antonio.example.springtddmybatis.model.Person">
+    <select id="findById" resultMap="personMap">
         <include refid="queryInner"></include>
         WHERE P.ID = #{personId}
     </select>
+
+    <sql id="queryInner">
+        SELECT
+        P.id AS id, P.cpf AS cpf, P.name AS name,
+        T.id AS t_id, T.ddd AS t_ddd, T.number AS t_number,
+        A.id AS a_id, A.street AS a_street, A.number AS a_number, A.complement AS a_complement,
+        A.neighborhood AS a_neighborhood, A.city AS a_city, A.state AS a_state
+        FROM PERSON P
+        LEFT JOIN TELEPHONE T ON T.person_id = P.id
+        LEFT JOIN ADDRESS A ON A.person_id = P.id
+    </sql>
+
+    <resultMap id="personMap" type="com.antonio.example.springtddmybatis.model.Person">
+        <result column="id" property="id"/>
+        <result column="cpf" property="cpf"  />
+        <result column="name" property="name"  />
+
+        <association property="telephones" resultMap="telephoneMap"/>
+        <association property="addresses" resultMap="addressMap"/>
+    </resultMap>
+
+    <resultMap id="telephoneMap" type="com.antonio.example.springtddmybatis.model.Telephone">
+        <result column="t_id" property="id"/>
+        <result column="t_ddd" property="ddd"/>
+        <result column="t_number" property="number"/>
+    </resultMap>
+
+    <resultMap id="addressMap" type="com.antonio.example.springtddmybatis.model.Address">
+        <result column="a_id" property="id"/>
+        <result column="a_street" property="street"/>
+        <result column="a_number" property="number"/>
+        <result column="a_complement" property="complement"/>
+        <result column="a_neighborhood" property="neighborhood"/>
+        <result column="a_city" property="city"/>
+        <result column="a_state" property="state"/>
+    </resultMap>
 
 </mapper>
