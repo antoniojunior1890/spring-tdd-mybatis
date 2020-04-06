@@ -15,8 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -225,9 +224,28 @@ public class PersonControllerTest extends SpringTddMybatisApplicationTests {
                 .content(asJsonString(personFilter)))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[*].id").value(containsInAnyOrder(1,3,5)))
                 .andExpect(jsonPath("$[*].name").value(containsInAnyOrder("Iago","Cauê","Thiago")))
                 .andExpect(jsonPath("$[*].cpf").value(containsInAnyOrder("86730543540","38767897100","72788740417")));
+    }
+
+    @Test
+    void mustFilterPersonByNamePartAndPartCpf() throws Exception {
+        PersonFilter personFilter = new PersonFilter();
+        personFilter.setName("a");
+        personFilter.setCpf("78");
+
+        mockMvc.perform(post("/person/filter")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(personFilter)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[*].id").value(containsInAnyOrder(3,5)))
+                .andExpect(jsonPath("$[*].name").value(containsInAnyOrder("Cauê","Thiago")))
+                .andExpect(jsonPath("$[*].cpf").value(containsInAnyOrder("38767897100","72788740417")));
     }
 
     public static String asJsonString(final Object obj) {
