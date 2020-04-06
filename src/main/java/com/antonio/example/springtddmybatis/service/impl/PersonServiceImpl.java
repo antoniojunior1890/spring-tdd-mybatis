@@ -10,6 +10,7 @@ import com.antonio.example.springtddmybatis.exception.TelephoneNotFoundException
 import com.antonio.example.springtddmybatis.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.net.dns.ResolverConfiguration;
 
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ public class PersonServiceImpl implements PersonService {
 
         personMapper.save(person);
 
-        return person;
+        return personMapper.findById(person.getId()).get();
     }
 
     @Override

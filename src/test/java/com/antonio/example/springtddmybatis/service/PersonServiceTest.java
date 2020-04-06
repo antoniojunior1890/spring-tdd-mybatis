@@ -1,12 +1,12 @@
 package com.antonio.example.springtddmybatis.service;
 
+import com.antonio.example.springtddmybatis.exception.OnenessCpfException;
+import com.antonio.example.springtddmybatis.exception.OnenessTelephoneException;
 import com.antonio.example.springtddmybatis.exception.PersonNotFoundException;
+import com.antonio.example.springtddmybatis.exception.TelephoneNotFoundException;
 import com.antonio.example.springtddmybatis.mapper.PersonMapper;
 import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
-import com.antonio.example.springtddmybatis.exception.OnenessCpfException;
-import com.antonio.example.springtddmybatis.exception.OnenessTelephoneException;
-import com.antonio.example.springtddmybatis.exception.TelephoneNotFoundException;
 import com.antonio.example.springtddmybatis.service.impl.PersonServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -55,10 +56,12 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void mustSavePersonInTheRepository() throws Exception {
-        sut.save(person);
+    public void mustSavePersonInTheRepository() throws OnenessTelephoneException, OnenessCpfException {
+        when(personMapper.findById(ID)).thenReturn(Optional.of(person));
 
+        sut.save(person);
         verify(personMapper).save(person);
+
     }
 
     @Test
