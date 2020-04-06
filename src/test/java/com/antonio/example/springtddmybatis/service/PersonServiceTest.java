@@ -98,6 +98,22 @@ public class PersonServiceTest {
     }
 
     @Test
+    void mustReturnDataOnenessTelephoneException() {
+        when(personMapper.findByTelephoneDddAndTelephoneNumber(DDD, NUMBER)).thenReturn(Optional.of(person));
+        Exception exception = assertThrows( OnenessTelephoneException.class, () -> sut.save(person));
+
+        assertEquals(exception.getMessage(),"Já existe pessoa cadastrada com o telefone ("+DDD+")"+NUMBER);
+    }
+
+    @Test
+    void mustReturnDataOnenessCpfException() {
+        when(personMapper.findByCpf(CPF)).thenReturn(Optional.of(person));
+        Exception exception = assertThrows( OnenessCpfException.class, () -> sut.save(person));
+
+        assertEquals(exception.getMessage(),"Já existe pessoa cadastrada com o cpf "+CPF);
+    }
+
+    @Test
     public void mustFindByTelephoneDddAndNumber () throws Exception {
         when(personMapper.findByTelephoneDddAndTelephoneNumber(DDD, NUMBER)).thenReturn(Optional.of(person));
 
