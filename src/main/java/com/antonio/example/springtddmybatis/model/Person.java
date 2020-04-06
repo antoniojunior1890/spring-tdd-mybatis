@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;

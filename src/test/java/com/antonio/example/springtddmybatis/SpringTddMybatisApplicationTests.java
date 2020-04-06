@@ -4,7 +4,9 @@ import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -13,14 +15,16 @@ import org.springframework.test.context.jdbc.Sql;
 @Sql(value = "/clean-database.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.yml")
+@AutoConfigureMockMvc
 public abstract class SpringTddMybatisApplicationTests {
 
-	@Value("${local.server.port}")
+	//	@Value("${local.server.port}")
+	@LocalServerPort
 	protected int port;
-
-	@BeforeEach
-	public void setUp() throws Exception {
-		RestAssured.port = port;
-	}
+//
+//	@BeforeEach
+//	public void setUp() throws Exception {
+//		RestAssured.port = port;
+//	}
 
 }

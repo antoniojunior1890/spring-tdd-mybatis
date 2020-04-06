@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class Telephone implements Serializable {
 
     private static final long serialVersionUID = 1L;

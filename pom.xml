@@ -5,7 +5,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.6.RELEASE</version>
+<!--		<version>2.2.6.RELEASE</version>-->
+		<version>2.2.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.antonio.example</groupId>
@@ -26,7 +27,8 @@
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>2.1.2</version>
+			<version>2.1.0</version>
+<!--			<version>2.1.2</version>-->
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -47,11 +49,18 @@
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
-			<version>3.0.3</version>
+			<version>3.3.0</version>
+<!--			<version>3.0.3</version>-->
 <!--			<version>4.3.0</version>-->
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.4.12</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
