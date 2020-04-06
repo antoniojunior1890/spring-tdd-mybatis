@@ -1,13 +1,10 @@
 package com.antonio.example.springtddmybatis.controller;
 
 
-import com.antonio.example.springtddmybatis.exception.OnenessCpfException;
-import com.antonio.example.springtddmybatis.exception.OnenessTelephoneException;
-import com.antonio.example.springtddmybatis.exception.PersonNotFoundException;
+import com.antonio.example.springtddmybatis.exception.*;
 import com.antonio.example.springtddmybatis.mapper.filter.PersonFilter;
 import com.antonio.example.springtddmybatis.model.Person;
 import com.antonio.example.springtddmybatis.model.Telephone;
-import com.antonio.example.springtddmybatis.exception.TelephoneNotFoundException;
 import com.antonio.example.springtddmybatis.service.impl.PersonServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -67,29 +64,4 @@ public class PersonController {
         return ResponseEntity.ok(personServiceImpl.findByFilter(personFilter));
     }
 
-    @ExceptionHandler(TelephoneNotFoundException.class)
-    public ResponseEntity<ApiError> handleTelephoneNotFoundException(TelephoneNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError(e.getMessage()));
-    }
-
-    @ExceptionHandler(PersonNotFoundException.class)
-    public ResponseEntity<ApiError> handlePersonNotFoundException(PersonNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError(e.getMessage()));
-    }
-
-    @ExceptionHandler(OnenessCpfException.class)
-    public ResponseEntity<ApiError> handleOnenessCpfException(OnenessCpfException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiError(e.getMessage()));
-    }
-
-    @ExceptionHandler(OnenessTelephoneException.class)
-    public ResponseEntity<ApiError> handleOnenessTelephoneException(OnenessTelephoneException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiError(e.getMessage()));
-    }
-
-    @AllArgsConstructor
-    @Getter
-    class ApiError {
-        private final String error;
-    }
 }
